@@ -1,20 +1,20 @@
 package org.example;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.LinkedList;
 
 public class Clinic {
     private ArrayList<String> doctorWaitingList;
     private ArrayList<String> radiologyWaitingList;
+    private TriageStrategy triageStrategy;
 
-    public Clinic() {
-        doctorWaitingList = new ArrayList<>();
-        radiologyWaitingList = new ArrayList<>();
+    public Clinic(TriageStrategy triageStrategy) {
+        this.triageStrategy = triageStrategy;
+        this.doctorWaitingList = new ArrayList<>();
+        this.radiologyWaitingList = new ArrayList<>();
     }
 
     public void triagePatient(String name, int gravity, VisibleSymptom visibleSymptom) {
-        doctorWaitingList.add(name);
+        triageStrategy.addToWaitingList(name, gravity, visibleSymptom, doctorWaitingList, radiologyWaitingList);
 
         if (visibleSymptom == VisibleSymptom.SPRAIN || visibleSymptom == VisibleSymptom.BROKEN_BONE) {
             radiologyWaitingList.add(name);
